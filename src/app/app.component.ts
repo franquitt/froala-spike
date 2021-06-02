@@ -15,6 +15,26 @@ export class AppComponent {
   public twoWayContent: string = "";
   public helperText: string = `<span>(12/05/2021)</span><br><br><p>------------------------------ Private Notes ------------------------------</p><br>`;
   
+  // TODO: test with text typed into the editor (type something, extract that text, insert it again, does it looks the same? is it changed in any way?)
+
+  my_text = [
+    `<span style="color: red; font-size: 23px;">(12/05/2021)</span><br><br><p>------------------------------ Private Notes ------------------------------</p><br>`,
+    `<div>qweryuio</div>`,
+    `<div><p>qwer</p><p><span>(12/05/2021)</span>o<br><br>    &nbsp;&nbsp;&nbsp; 4565456456 <<name>> </p></div>`,
+    `<span style="color:blue;text-align:center"></span>`,
+    `<span><u><i>dshfjka</i></u></span>`,
+    `<br>&nbsp; <<lastName>>`
+  ]
+
+  test() {
+    for(const txt of this.my_text){
+      this.helperText = txt;
+      this.end();
+    }
+
+    alert(this.twoWayContent === this.my_text.join('') ? 'worky worky C:' : 'no worky worky :C');
+  }
+
   beginning(){
     this.twoWayContent = this.helperText + this.twoWayContent;
     this.setCursorAtEnd()
