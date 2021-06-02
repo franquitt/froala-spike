@@ -1,10 +1,11 @@
 <input type="text" [(ngModel)]='helperText'>
 <br>
 <button (click)="beginning()">Add to beginning</button>
+<button (click)="end()">Log</button>
 
 
 
 <br><br><br><br>
 <hr>
 <br>
-<div [froalaEditor] [(froalaModel)]="twoWayContent">Hello, Froala!</div>
+<div #froala [froalaEditor] [(froalaModel)]="twoWayContent">Hello, Froala!</div>
