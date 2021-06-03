@@ -17,7 +17,7 @@ export class AppComponent {
   public helperText: string = `Hello! <br>
   
   <p>
-  Can you move the cursor <b style="z-index: 1">HERE?</b>
+  Can you move the cursor <b style="z-index: 1" data-focus="1">HERE?</b>
   </p>
   `;
   
@@ -69,13 +69,13 @@ export class AppComponent {
     element.focus();
 
     // get all elements inside the editor with some style
-    let focuseableElements = element.querySelectorAll("*[style]");
+    let focuseableElements = element.querySelectorAll("*[data-focus]");
     
     // Convert NodeList to an array
     let elementsArr = Array.prototype.slice.call(focuseableElements);
 
     // get the dom element with max zIndex
-    const focuseableElement = elementsArr.reduce((prev, current) => (prev.style.zIndex > current.style.zIndex) ? prev : current)
+    const focuseableElement = elementsArr.reduce((prev, current) => (prev.dataset.focus > current.dataset.focus) ? prev : current)
     
     if(focuseableElement)
       this.selectSubElement(focuseableElement)
