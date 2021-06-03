@@ -38,19 +38,14 @@ export class AppComponent {
         buttonsVisible: 2
       }
     },
-   
   }
-  /*{
-    htmlUntouched: true,
-    enter: FroalaEditor.ENTER_BR
-  }*/
 
   public inputLineNumber: number = 1;
   public twoWayContent: String = "";
   public helperText: string = `Hello! <br>
   
   <p>
-  Can you move the cursor <b style="z-index: 1" data-focus="1">HERE?</b>
+  Can you move the cursor <b data-focus="1">HERE?</b>
   </p>
   `;
   
@@ -84,6 +79,10 @@ export class AppComponent {
     this.setCursor();
   }
 
+  replaceAll(){
+    this.twoWayContent = this.helperText
+  }
+
   cleanUp(){
     this.twoWayContent="";
   }
@@ -97,7 +96,7 @@ export class AppComponent {
     `<br>&nbsp; <<lastName>>`;
   }
 
-  setCursor(){
+  setCursor({right}={right:false}){
     let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
     element.focus();
 
@@ -114,49 +113,52 @@ export class AppComponent {
     const focuseableElement = elementsArr.reduce((prev, current) => (prev.dataset.focus > current.dataset.focus) ? prev : current)
     
     if(focuseableElement)
-      this.selectSubElement(focuseableElement)
+      this.selectSubElement(focuseableElement, right)
+    
   }
 
+  setCursorRight(){
+    this.setCursor({right: true})
+  }
   
   setCursorBeginning(){
     let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
     element.focus();
     if(element.firstChild)
-      this.selectSubElement(element.firstChild)
+      this.selectSubElement(element.firstChild, false)
   }
 
   setCursorAtEnd(){
     let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
     element.focus();
     if(element.lastChild)
-      this.selectSubElement(element.lastChild)
+      this.selectSubElement(element.lastChild, false)
   }
 
-  selectSubElement(element){
+  selectSubElement(element, right){
     let range = document.createRange();
     let selection: any = window.getSelection();
 
-    // Sets selection position to the start of the element.
-    range.setStart(element, 0);
+
+    if(right){
+      range.selectNodeContents(element);
+      range.collapse(false);
+    }else{
+      // Sets selection position to the start of the element.
+      range.setStart(element, 0);
+    }
+
     // Removes other selection ranges.
     selection.removeAllRanges();
     // Adds the range to the selection.
     selection.addRange(range);
   }
 
-  selectEndOfSubElement(){
 
-  }
+  removeCursor(){
+    let selection: any = window.getSelection();
+    selection.removeAllRanges();
 
-
-  //playground
-  moveCursor(){
-    console.log(this.inputLineNumber);
-    console.log(this.twoWayContent);
-    const plainText = this.twoWayContent.replace(/<br( \/)*>/g, "\n").replace(/<[^>]*>/g, "");
-    const lines = plainText.split("\n");
-    console.log(plainText)
-    console.log(lines)
-    console.log(lines[this.inputLineNumber]);
+    this.editorContainer.nativeElement.blur()
   }
 }

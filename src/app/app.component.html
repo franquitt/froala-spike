@@ -1,13 +1,31 @@
+<label>New content</label><br>
 <textarea [(ngModel)]='helperText' cols="200" rows="10"></textarea>
 <br>
-<button (click)="beginning()">Add to beginning</button><br>
-<button (click)="end()">Add to end</button><br>
+<label>Location</label>
+<div>
+    <button (click)="beginning()">Add to beginning</button><br>
+    <button (click)="end()">Add to end</button><br>
+</div>
+
+
+
+<br>
+<label>Cursor</label><br>
+<button (click)="setCursorBeginning()">At beginning of the editor</button><br>
+<button (click)="setCursorAtEnd()">At end of the editor</button><br>
+<button (click)="setCursor()">To highest focus</button><br>
+<button (click)="setCursorRight()">To the right of the item with the greatest focus</button><br>
+<button (click)="removeCursor()">None</button><br>
+
+
+<br>
+<label>Utils</label><br>
+<button (click)="cleanUp()">Reset Content</button><br>
+<button (click)="replaceAll()">Replace Content</button><br>
+<br>
 <button (click)="test()">test</button><br>
-<button (click)="cleanUp()">CleanUp</button><br>
 <button (click)="lorem()">Lorem Ipsum</button><br>
-<button (click)="setCursor()">Set Cursor to highest index</button><br>
-<button (click)="setCursorBeginning()">Cursor at beginning of the editor</button><br>
-<button (click)="setCursorAtEnd()">Cursor at end of the editor</button><br>
+
 
 <!--<label id="label1">Move cursor to specific Data-focus:</label>
 <input type="number" [(ngModel)]='inputLineNumber'>
@@ -20,4 +38,7 @@
 <hr>
 <br>
 <div #froala [froalaEditor]='froalaOptions' [(froalaModel)]="twoWayContent">Hello, Froala!</div>
+
+<br>
+<label>Raw binding value</label><br>
 <textarea [(ngModel)]='twoWayContent' cols="200" rows="10"></textarea>
