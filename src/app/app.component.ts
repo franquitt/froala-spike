@@ -11,6 +11,9 @@ export class AppComponent {
   title = 'froala-spike';
 
   @ViewChild('froala', {read: ElementRef, static: false}) editorContainer: ElementRef;
+  @ViewChild(FroalaEditor, {read: FroalaEditor, static: false}) editorInstance: FroalaEditor;
+
+  editorControls
 
   public froalaOptions = {
     heightMin: '100%',
@@ -37,13 +40,15 @@ export class AppComponent {
         align: 'right',
         buttonsVisible: 2
       }
-    },
+    }
   }
+
+  public editor;
 
   public inputLineNumber: number = 1;
   public twoWayContent: String = "";
   public helperText: string = `Hello! <br>
-  
+
   <p>
   Can you move the cursor <b data-focus="1">HERE?</b>
   </p>
@@ -59,6 +64,12 @@ export class AppComponent {
     `<span><u><i>dshfjka</i></u></span>`,
     `<br>&nbsp; <<lastName>>`
   ]
+
+  init($event) {
+    this.editorControls = $event;
+    this.editorControls.initialize();
+    this.editor = this.editorControls.getEditor();
+  }
 
   test() {
     for(const txt of this.my_text){
@@ -77,6 +88,10 @@ export class AppComponent {
   end(){
     this.twoWayContent = this.twoWayContent + this.helperText;
     this.setCursor();
+  }
+  
+  appendText(){
+    this.editor.html.insert('fdsahajkldas');
   }
 
   replaceAll(){

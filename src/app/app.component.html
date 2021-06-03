@@ -5,6 +5,7 @@
 <div>
     <button (click)="beginning()">Add to beginning</button><br>
     <button (click)="end()">Add to end</button><br>
+    <button (click)="appendText()">Add to cursor</button><br>
 </div>
 
 
@@ -37,7 +38,7 @@
 <br><br><br><br>
 <hr>
 <br>
-<div #froala [froalaEditor]='froalaOptions' [(froalaModel)]="twoWayContent">Hello, Froala!</div>
+<div #froala [froalaEditor]='froalaOptions' (froalaInit)="init($event)" [(froalaModel)]="twoWayContent">Hello, Froala!</div>
 
 <br>
 <label>Raw binding value</label><br>
