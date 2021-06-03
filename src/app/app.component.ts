@@ -1,25 +1,28 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/core';
 import FroalaEditor from 'froala-editor';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewChecked{
+  
+
   title = 'froala-spike';
 
   @ViewChild('froala', {read: ElementRef, static: false}) editorContainer: ElementRef;
   @ViewChild(FroalaEditor, {read: FroalaEditor, static: false}) editorInstance: FroalaEditor;
 
   editorControls
+  newLocation = "beggining";
+  cursorPosition = "contentEnd";
+  moveCursorOnFroalaRender=false;
 
   public froalaOptions = {
     heightMin: '100%',
     heightMax: '100%',
-    enter: FroalaEditor.ENTER_BR,
-    htmlUntouched: true,
+    enter: FroalaEditor.ENTER_DIV,
     attribution: false,
     tabSpaces: 5,
     toolbarVisibleWithoutSelection: true,
@@ -53,45 +56,54 @@ export class AppComponent {
   Can you move the cursor <b data-focus="1">HERE?</b>
   </p>
   `;
-  
-  // TODO: test with text typed into the editor (type something, extract that text, insert it again, does it looks the same? is it changed in any way?)
-
-  my_text = [
-    `<span style="color: red; font-size: 23px;">(12/05/2021)</span><br><br><p>------------------------------ Private Notes ------------------------------</p><br>`,
-    `<div>qweryuio</div>`,
-    `<div><p>qwer</p><p><span>(12/05/2021)</span>o<br><br>    &nbsp;&nbsp;&nbsp; 4565456456 <<name>> </p></div>`,
-    `<span style="color:blue;text-align:center"></span>`,
-    `<span><u><i>dshfjka</i></u></span>`,
-    `<br>&nbsp; <<lastName>>`
-  ]
 
   init($event) {
     this.editorControls = $event;
     this.editorControls.initialize();
     this.editor = this.editorControls.getEditor();
   }
-
-  test() {
-    for(const txt of this.my_text){
-      this.helperText = txt;
-      this.end();
+  
+  ngAfterViewChecked(): void {
+    if(this.moveCursorOnFroalaRender){
+      this.moveCursorOnFroalaRender=false;
+      this.moveCursor();
     }
-
-    alert(this.twoWayContent === this.my_text.join('') ? 'the fields match' : 'the fields don`t match');
   }
 
-  beginning(){
-    this.twoWayContent = this.helperText + this.twoWayContent;
-    this.setCursor();
+  go(){
+    console.log(this.newLocation, this.cursorPosition);
+    switch(this.newLocation){
+      case "beggining":
+        this.twoWayContent = this.helperText + this.twoWayContent;
+        break;
+      case "end":
+        this.twoWayContent = this.twoWayContent + this.helperText;
+        break;
+      case "cursor":
+        this.editor.html.insert(this.helperText);
+        break;
+    }
+    this.moveCursorOnFroalaRender=true;
   }
-  
-  end(){
-    this.twoWayContent = this.twoWayContent + this.helperText;
-    this.setCursor();
-  }
-  
-  appendText(){
-    this.editor.html.insert('fdsahajkldas');
+
+  moveCursor(){
+    switch(this.cursorPosition){
+      case "contentEnd":
+        this.setCursorAtEnd();
+        break;
+      case "contentStart":
+          this.setCursorBeginning();
+          break;
+      case "markerL":
+          this.setCursorAtMark();
+          break;
+      case "markerR":
+        this.setCursorAtMark({right: true})
+        break;
+      case "none":
+        this.removeCursor();
+        break;
+    }
   }
 
   replaceAll(){
@@ -102,16 +114,7 @@ export class AppComponent {
     this.twoWayContent="";
   }
 
-  lorem(){
-    this.twoWayContent= `<span style="color: red; font-size: 23px;">(12/05/2021)</span><br><br><p>------------------------------ Private Notes ------------------------------</p><br>`+
-    `<div>qweryuio</div>`+
-    `<div><p>qwer</p><p><span>(12/05/2021)</span>o<br><br>    &nbsp;&nbsp;&nbsp; 4565456456 <<name>> </p></div>`+
-    `<span style="color:blue;text-align:center"></span>`+
-    `<span><u><i>dshfjka</i></u></span>`+
-    `<br>&nbsp; <<lastName>>`;
-  }
-
-  setCursor({right}={right:false}){
+  setCursorAtMark({right}={right:false}){
     let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
     element.focus();
 
@@ -131,10 +134,6 @@ export class AppComponent {
       this.selectSubElement(focuseableElement, right)
     
   }
-
-  setCursorRight(){
-    this.setCursor({right: true})
-  }
   
   setCursorBeginning(){
     let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
@@ -147,14 +146,12 @@ export class AppComponent {
     let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
     element.focus();
     if(element.lastChild)
-      this.selectSubElement(element.lastChild, false)
+      this.selectSubElement(element.lastChild, true)
   }
 
   selectSubElement(element, right){
     let range = document.createRange();
     let selection: any = window.getSelection();
-
-
     if(right){
       range.selectNodeContents(element);
       range.collapse(false);
@@ -162,7 +159,6 @@ export class AppComponent {
       // Sets selection position to the start of the element.
       range.setStart(element, 0);
     }
-
     // Removes other selection ranges.
     selection.removeAllRanges();
     // Adds the range to the selection.
@@ -175,5 +171,14 @@ export class AppComponent {
     selection.removeAllRanges();
 
     this.editorContainer.nativeElement.blur()
+  }
+
+  lorem(){
+    this.twoWayContent= `<span style="color: red; font-size: 23px;">(12/05/2021)</span><br><br><p>------------------------------ Private Notes ------------------------------</p><br>`+
+    `<div>qweryuio</div>`+
+    `<div><p>qwer</p><p><span>(12/05/2021)</span>o<br><br>    &nbsp;&nbsp;&nbsp; 4565456456 <<name>> </p></div>`+
+    `<span style="color:blue;text-align:center"></span>`+
+    `<span><u><i>dshfjka</i></u></span>`+
+    `<br>&nbsp; <<lastName>>`;
   }
 }
