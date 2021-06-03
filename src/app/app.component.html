@@ -1,8 +1,16 @@
-<input type="text" [(ngModel)]='helperText'>
+<textarea [(ngModel)]='helperText' cols="200" rows="10"></textarea>
 <br>
-<button (click)="beginning()">Add to beginning</button>
-<button (click)="end()">Log</button>
-<button (click)="test()">test</button>
+<button (click)="beginning()">Add to beginning</button><br>
+<button (click)="end()">Add to end</button><br>
+<button (click)="test()">test</button><br>
+<button (click)="cleanUp()">CleanUp</button><br>
+<button (click)="lorem()">Lorem Ipsum</button><br>
+<button (click)="setCursor()">Set Cursor</button><br>
+<button (click)="setCursorBeginning()">Cursor at beginning</button><br>
+
+<!--<label id="label1">Move cursor to line:</label>
+<input type="number" [(ngModel)]='inputLineNumber'>
+<button (click)="moveCursor()">Move Cursor!</button><br>-->
 
 
 
