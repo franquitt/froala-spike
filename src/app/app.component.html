@@ -5,16 +5,19 @@
 <button (click)="test()">test</button><br>
 <button (click)="cleanUp()">CleanUp</button><br>
 <button (click)="lorem()">Lorem Ipsum</button><br>
-<button (click)="setCursor()">Set Cursor</button><br>
-<button (click)="setCursorBeginning()">Cursor at beginning</button><br>
+<button (click)="setCursor()">Set Cursor to highest index</button><br>
+<button (click)="setCursorBeginning()">Cursor at beginning of the editor</button><br>
+<button (click)="setCursorAtEnd()">Cursor at end of the editor</button><br>
 
-<!--<label id="label1">Move cursor to line:</label>
+<!--<label id="label1">Move cursor to specific Data-focus:</label>
 <input type="number" [(ngModel)]='inputLineNumber'>
-<button (click)="moveCursor()">Move Cursor!</button><br>-->
+<button (click)="moveCursor()">Move Cursor!</button><br>
+-->
 
 
 
 <br><br><br><br>
 <hr>
 <br>
-<div #froala [froalaEditor] [(froalaModel)]="twoWayContent">Hello, Froala!</div>
+<div #froala [froalaEditor]='froalaOptions' [(froalaModel)]="twoWayContent">Hello, Froala!</div>
+<textarea [(ngModel)]='twoWayContent' cols="200" rows="10"></textarea>

@@ -12,6 +12,39 @@ export class AppComponent {
 
   @ViewChild('froala', {read: ElementRef, static: false}) editorContainer: ElementRef;
 
+  public froalaOptions = {
+    heightMin: '100%',
+    heightMax: '100%',
+    enter: FroalaEditor.ENTER_BR,
+    htmlUntouched: true,
+    attribution: false,
+    tabSpaces: 5,
+    toolbarVisibleWithoutSelection: true,
+    charCounterCount: false,
+    toolbarInline: false,
+    toolbarButtons: {
+      moreText: {
+        buttons: [
+          'bold',
+          'italic',
+          'underline',
+          'clearFormatting',
+          'align',
+        ]
+      },
+      moreMisc: {
+        buttons: ['undo', 'redo',],
+        align: 'right',
+        buttonsVisible: 2
+      }
+    },
+   
+  }
+  /*{
+    htmlUntouched: true,
+    enter: FroalaEditor.ENTER_BR
+  }*/
+
   public inputLineNumber: number = 1;
   public twoWayContent: String = "";
   public helperText: string = `Hello! <br>
@@ -74,6 +107,9 @@ export class AppComponent {
     // Convert NodeList to an array
     let elementsArr = Array.prototype.slice.call(focuseableElements);
 
+    if(!elementsArr || !elementsArr.length)
+      return
+
     // get the dom element with max zIndex
     const focuseableElement = elementsArr.reduce((prev, current) => (prev.dataset.focus > current.dataset.focus) ? prev : current)
     
@@ -89,6 +125,13 @@ export class AppComponent {
       this.selectSubElement(element.firstChild)
   }
 
+  setCursorAtEnd(){
+    let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
+    element.focus();
+    if(element.lastChild)
+      this.selectSubElement(element.lastChild)
+  }
+
   selectSubElement(element){
     let range = document.createRange();
     let selection: any = window.getSelection();
@@ -101,6 +144,9 @@ export class AppComponent {
     selection.addRange(range);
   }
 
+  selectEndOfSubElement(){
+
+  }
 
 
   //playground
@@ -112,30 +158,5 @@ export class AppComponent {
     console.log(plainText)
     console.log(lines)
     console.log(lines[this.inputLineNumber]);
-  }
-
-  //playground
-  setCursorAtEnd() {
-    // Selects the contenteditable element. You may have to change the selector.
-    let element: any = this.editorContainer.nativeElement.querySelector(".fr-element");
-
-    // Selects the last and the deepest child of the element.
-    while (element.lastChild) {
-      element = element.lastChild;
-    }
-
-    // Gets length of the element's content.
-    let textLength = element.textContent.length;
-
-    let range = document.createRange();
-    let selection = window.getSelection();
-
-    // Sets selection position to the end of the element.
-    range.setStart(element, 0);
-    range.setEnd(element, 1);
-    // Removes other selection ranges.
-    selection.removeAllRanges();
-    // Adds the range to the selection.
-    selection.addRange(range);
   }
 }
