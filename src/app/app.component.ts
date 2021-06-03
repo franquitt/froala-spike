@@ -23,6 +23,7 @@ export class AppComponent implements AfterViewChecked{
     heightMin: '100%',
     heightMax: '100%',
     enter: FroalaEditor.ENTER_DIV,
+    htmlUntouched: true,
     attribution: false,
     tabSpaces: 5,
     toolbarVisibleWithoutSelection: true,
