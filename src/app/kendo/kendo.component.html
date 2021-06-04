@@ -9,8 +9,9 @@
 <label>Cursor</label><br>
 <input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='contentEnd'>Content End<br>
 <input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='contentStart'>Content Start<br>
-<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerL'>Marker Left<br>
-<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerR'>Marker Right<br>
+<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='offset'>offset at
+<input type="number" [(ngModel)]="offset">
+<br>
 <input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='none'>None<br>
 
 <button (click)="go(editor)">Go!</button><br>
