@@ -1,4 +1,5 @@
 import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/core';
+import { EditorComponent } from '@progress/kendo-angular-editor';
 
 @Component({
   selector: 'app-kendo',
@@ -7,25 +8,26 @@ import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/cor
 })
 
 export class KendoComponent {
-    
+
     twoWayContent = ""
     newLocation = "end";
     cursorPosition = "contentEnd";
     public helperText: string = "Hello!";
 
-    go() {
-
+    go(editor: EditorComponent) {
+        editor.focus();
         console.log(this.newLocation, this.cursorPosition);
         switch (this.newLocation) {
           case "beggining":
-            //this.twoWayContent = this.helperText + this.twoWayContent;
+            //editor.exec('insertText', { text: this.helperText, from: 0, to: 0 });
+            this.twoWayContent = this.helperText + this.twoWayContent;
             break;
           case "end":
             //this.editor.html.insert(this.helperText, true);
-    //        this.twoWayContent = this.twoWayContent + this.helperText;
+            this.twoWayContent = this.twoWayContent + this.helperText;
             break;
           case "cursor":
-            //this.editor.html.insert(this.helperText);
+            editor.exec('insertText', { text: this.helperText });
             break;
         }
       }
@@ -45,10 +47,12 @@ export class KendoComponent {
         }
       }
     
-      replaceAll() {
+      replaceAll(editor: EditorComponent) {
+        editor.exec('setHTML', this.helperText);
       }
     
       cleanUp() {
+          this.twoWayContent = "";
       }
     
       
