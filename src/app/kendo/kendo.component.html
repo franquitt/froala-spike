@@ -12,8 +12,21 @@
 <input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerL'>Marker Left<br>
 <input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerR'>Marker Right<br>
 <input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='none'>None<br>
+
 <button (click)="go()">Go!</button><br>
+
+<br>
+<label>Utils</label><br>
+<button (click)="cleanUp()">Reset Content</button><br>
+<button (click)="replaceAll()">Replace Content</button><br>
+<br>
+<button (click)="lorem()">Lorem Ipsum</button><br>
+
+<br><br><br><br>
 <hr>
-<p class="editor" contenteditable="true" [formControl]="myControl" propValueAccessor="innerHTML"></p>
+<br>
+<kendo-editor [value]="twoWayContent" style="height: 370px;"></kendo-editor>
+
+<br>
 <label>Raw binding value</label><br>
-<textarea cols="200" rows="10"></textarea>
+<textarea [(ngModel)]='twoWayContent' cols="200" rows="10"></textarea>
