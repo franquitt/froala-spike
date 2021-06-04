@@ -1,48 +1,6 @@
-<label>New content</label><br>
-<textarea [(ngModel)]='helperText' cols="200" rows="10"></textarea>
-<br>
-<!--<label>Location</label>
-<div>
-    <button (click)="beginning()">Add to beginning</button><br>
-    <button (click)="end()">Add to end</button><br>
-    <button (click)="appendText()">Add to cursor</button><br>
-</div>
-
-<br>
-<label>Cursor</label><br>
-<button (click)="setCursorBeginning()">At beginning of the editor</button><br>
-<button (click)="setCursorAtEnd()">At end of the editor</button><br>
-<button (click)="setCursor()">To the left of the item with the greatest focus</button><br>
-<button (click)="setCursorRight()">To the right of the item with the greatest focus</button><br>
-<button (click)="removeCursor()">None</button><br>
--->
-
-<label>Location</label><br>
-<input type="radio" [(ngModel)]='newLocation' name="location" value='beggining'>beggining<br>
-<input type="radio" [(ngModel)]='newLocation' name="location" value='end'>end<br>
-<input type="radio" [(ngModel)]='newLocation' name="location" value='cursor'>cursor<br>
-<br><br>
-<label>Cursor</label><br>
-<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='contentEnd'>Content End<br>
-<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='contentStart'>Content Start<br>
-<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerL'>Marker Left<br>
-<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerR'>Marker Right<br>
-<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='none'>None<br>
-
-<button (click)="go()">Go!</button><br>
-
-<br>
-<label>Utils</label><br>
-<button (click)="cleanUp()">Reset Content</button><br>
-<button (click)="replaceAll()">Replace Content</button><br>
-<br>
-<button (click)="lorem()">Lorem Ipsum</button><br>
-
-<br><br><br><br>
-<hr>
-<br>
-<div #froala [froalaEditor]='froalaOptions' (froalaInit)="init($event)" [(froalaModel)]="twoWayContent">Hello, Froala!</div>
-
-<br>
-<label>Raw binding value</label><br>
-<textarea [(ngModel)]='twoWayContent' cols="200" rows="10"></textarea>
+<nav>
+  <a routerLink="/froala">Test Frola</a> |
+  <a routerLink="/dom">Test Native DOM</a> |
+  <a routerLink="/kendo">Test Kendo</a>
+</nav>
+<router-outlet></router-outlet>

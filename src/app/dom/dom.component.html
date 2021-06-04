@@ -1,0 +1,19 @@
+<label>New content</label><br>
+<textarea [(ngModel)]='helperText' cols="200" rows="10"></textarea>
+<br>
+<label>Location</label><br>
+<input type="radio" [(ngModel)]='newLocation' name="location" value='end'>end<br>
+<input type="radio" [(ngModel)]='newLocation' name="location" value='beggining'>beggining<br>
+<input type="radio" [(ngModel)]='newLocation' name="location" value='cursor'>cursor<br>
+<br><br>
+<label>Cursor</label><br>
+<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='contentEnd'>Content End<br>
+<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='contentStart'>Content Start<br>
+<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerL'>Marker Left<br>
+<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='markerR'>Marker Right<br>
+<input type="radio" [(ngModel)]='cursorPosition' name="cursor" value='none'>None<br>
+<button (click)="go()">Go!</button><br>
+<hr>
+<p class="editor" contenteditable="true" [formControl]="myControl" propValueAccessor="innerHTML"></p>
+<label>Raw binding value</label><br>
+<textarea [(ngModel)]="myControl.value" cols="200" rows="10"></textarea>
